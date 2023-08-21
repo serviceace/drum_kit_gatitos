@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Drum Kit de gatitos</title>
+    <style>
+
+        * {
+            margin: 0;
+            padding: 0;
+        }
+        body {
+            background-color: gray;
+            background-image: url(./fondo__gatitos.jpg);
+        }
+
+        .teclas {
+            list-style: none;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .teclitas {
+            font-family: Lato;
+            font-size: 1.5rem;
+            border: 4px solid whitesmoke;
+            border-radius: 5px;
+            background-color: plum;
+            padding: 1rem .5rem;
+            margin: 1rem;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #FFF;
+            width: 100px;
+            height: 50px;
+            transition: all 0.07s;
+            text-shadow: 0 0 5px black;
+        }
+
+        .animacion {
+            transform: scale(1.1);
+            border-color: #ffc600;
+            box-shadow: 0 0 10px #ffc600;
+        }
+    </style>
+</head>
+<body>
+
+    <ul class="teclas">
+        <li data-key="65" class="teclitas">A</li>
+        <li data-key="83" class="teclitas">S</li>
+        <li data-key="68" class="teclitas">D</li>
+        <li data-key="70" class="teclitas">F</li>
+        <li data-key="71" class="teclitas">G</li>
+        <li data-key="72" class="teclitas">H</li>
+        <li data-key="74" class="teclitas">J</li>
+        <li data-key="75" class="teclitas">K</li>
+        <li data-key="76" class="teclitas">L</li>
+    </ul>
+
+    <audio data-key="65" src="./sonidos/miau01.mp3"></audio>
+    <audio data-key="83" src="./sonidos/miau02.mp3"></audio>
+    <audio data-key="68" src="./sonidos/miau03.mp3"></audio>
+    <audio data-key="70" src="./sonidos/miau04.mp3"></audio>
+    <audio data-key="71" src="./sonidos/miau05.mp3"></audio>
+    <audio data-key="72" src="./sonidos/miau06.mp3"></audio>
+    <audio data-key="74" src="./sonidos/miau07.mp3"></audio>
+    <audio data-key="75" src="./sonidos/miau08.mp3"></audio>
+    <audio data-key="76" src="./sonidos/miau09.mp3"></audio>
+
+    <script>
+        
+        
+        function reproducirMiau(e) {
+            const audio = document.querySelector(`audio[data-key="${e.keyCode}"]`);
+            const teclita = document.querySelector(`.teclitas[data-key="${e.keyCode}"]`);
+            if (!audio) return; // detiene la funcion para que no suene con cualquier cosa
+            audio.currentTime = 0; // resetea la reproduccion
+            audio.play();
+            teclita.classList.add('animacion');
+        }
+        
+        function removeTransition(e) {
+            if (e.propertyName !== 'transform') return; // se lo saltea si no es una animacion
+            this.classList.remove('animacion')
+        }
+        
+        const teclas = document.querySelectorAll('.teclitas');
+        teclas.forEach( tecla => tecla.addEventListener('transitionend', removeTransition));
+        
+        window.addEventListener('keydown', reproducirMiau);
+    </script>
+</body>
+</html>
